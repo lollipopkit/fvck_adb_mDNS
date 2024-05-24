@@ -11,10 +11,10 @@ def exec(args):
     return subprocess.run(args, capture_output=True, text=True)
 
 def ok(str):
-    return f"{GREEN}{str}{RESET}"
+    print(f"{GREEN}{str}{RESET}")
 
 def err(str):
-    return f"{RED}{str}{RESET}"
+    print(f"{RED}{str}{RESET}")
 
 def find_adb_services():
     try:
@@ -41,13 +41,13 @@ def connect_to_adb(ip_port_list):
         try:
             result = exec(['adb', 'connect', f'{ip}:{port}'])
             if result.returncode == 0:
-                ok(f"Connected: {ip}:{port}")
+                ok(f"Connected {ip}:{port}")
             else:
-                err(f"Connect failed: {ip}:{port}")
+                err(f"Failed {ip}:{port}")
         except Exception as e:
             err(f"Err: {e}")
 
-if __name__ == '__main__':
+def main():
     print("Saerching...")
     service_output = find_adb_services()
     if not service_output:
@@ -61,3 +61,6 @@ if __name__ == '__main__':
 
     print(f"Trying to connect to: {ip_port_list}")
     connect_to_adb(ip_port_list)
+
+if __name__ == '__main__':
+    main()
