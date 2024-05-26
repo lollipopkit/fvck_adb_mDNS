@@ -2,13 +2,20 @@
 
 import subprocess
 import re
+import sys
 
 GREEN = '\033[92m'
 RED = '\033[91m'
 RESET = '\033[0m'
 
+PRINT = True
+
 def exec(args):
     return subprocess.run(args, capture_output=True, text=True)
+
+def print(str):
+    if PRINT:
+        print(str)
 
 def ok(str):
     print(f"{GREEN}{str}{RESET}")
@@ -63,4 +70,7 @@ def main():
     connect_to_adb(ip_port_list)
 
 if __name__ == '__main__':
+    args = sys.argv
+    if '--no-print' in args:
+        PRINT = False
     main()
